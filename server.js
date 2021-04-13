@@ -24,8 +24,12 @@ app.engine('html', require('ejs').renderFile);
 app.set('view engine', 'html');
 
 // Cria a rota que será utilizada para acessar a aplicação
-app.use('/', (req, res)=>{
+app.get('/', (req, res)=>{
     res.render('index.html')
+})
+
+app.get('/dashboard', (req, res)=>{
+    res.render('dashboard.html')
 })
 
 // Array que guardará as mensagens do chat
