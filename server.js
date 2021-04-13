@@ -5,6 +5,9 @@ const app = express();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 
+const hostname = '25.112.43.40';
+const port = 80;
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname,'public'));
 app.engine('html', require('ejs').renderFile);
@@ -14,4 +17,20 @@ app.use('/', (req, res)=>{
     res.render('index.html')
 })
 
-server.listen(3000);
+let messages = [];
+
+io.on('connection', socket => {
+    console.log('Socket Conectado:'+socket.id);
+
+    socket.emit('previousMessage', messages);
+
+    socket.on('sendMessage', data => {
+        messages.push(data);
+        console.log(data);
+        socket.broadcast.emit('receivedMessage', data);
+    })
+})
+
+server.listen(port, hostname, ()=>{
+    console.log(`Server running at http://${hostname}:${port}/`)
+});
