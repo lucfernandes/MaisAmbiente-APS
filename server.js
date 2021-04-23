@@ -1,36 +1,36 @@
-// Importa o Express e o Path para aplicação
 const express = require('express');
+const app = express();
 const path = require('path');
 
-// Instância o Express
-const app = express();
+// Set Host e Porta
+const hostname = '25.112.43.40';
+const PORT = 80;
+
+// Use bodyParser
+app.use(express.json());
+app.use(express.urlencoded({
+    extended: true
+}));
+
+// Set pasta public para os arquivos do front
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('views', path.join(__dirname,'public'));
+
+// Set HTML como engine principal
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
+
+// Busco as rotas definidas
+const routes = require('./App/routes.js');
+
+// Utiliza as rotas declaradas
+app.use('/', routes);
+
 
 // Importa HTTP e cria o servidor
 const server = require('http').createServer(app);
 
-// Instância o Socket.IO no servidor criado
 const io = require('socket.io')(server);
-
-// Registra o host e a porta que será hospedada a aplicação
-const hostname = '25.112.43.40';
-const port = 80;
-
-// Set de onde estará a aplicação base
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('views', path.join(__dirname,'public'));
-
-// Set da tecnologia utilizada para o front
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
-// Cria a rota que será utilizada para acessar a aplicação
-app.get('/', (req, res)=>{
-    res.render('index.html')
-})
-
-app.get('/dashboard', (req, res)=>{
-    res.render('dashboard.html')
-})
 
 // Array que guardará as mensagens do chat
 let messages = [];
@@ -50,7 +50,7 @@ io.on('connection', socket => {
     })
 })
 
-// Hospeda a aplicação na porta e no host indicado
-server.listen(port, hostname, ()=>{
-    console.log(`Server running at http://${hostname}:${port}/`)
-});
+
+
+// Inicia servidor
+app.listen(PORT, hostname);
