@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastre-Se | +Ambiente</title>
+    <title>Cadastre-se | +Ambiente</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="dist/css/main.css">
+    <link rel="stylesheet" href="/css/main.css">
 
     <!-- Imports -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -16,17 +16,22 @@
 </head>
 <body>
 
-    <div id="appRoot" class="signupApp">
+    <div id="appRoot" class="loginApp">
         <h1>+Ambiente</h1>
-        <form method="post">
+        {{#if message }}
+            <h4 class="{{code}}">{{message}}</h4>
+        {{/if}}
+        <form action="/auth/cadastro" method="post">
             <a href="/" class="back">Voltar</a>
             <h3>Cadastre-se</h3>
             <div class="input-group">
-                <input type="text" placeholder="Digite seu e-mail" required>
-                <input type="password" placeholder="Digite sua senha" required>
+                <input type="text" name="name_user" placeholder="Digite seu nome" required>
+                <input type="text" name="user" placeholder="Digite seu usuário" required>
+                <input type="password" name="password" placeholder="Digite sua senha" required>
+                <input type="password" name="password_confirm" placeholder="Confirme sua senha" required>
             </div>
-            <button type="submit" class="btn-default">Entrar</button>
-            <a href="#" class="help">Esqueci minha senha</a>
+            <button type="submit" class="btn-default">Cadastrar</button>
+            <a href="/login" class="help">Fazer login</a>
         </form>
     </div>
 

@@ -218,6 +218,18 @@ Login
     color: var(--color-primary);
     z-index: 1;
 }
+.loginApp h4.\34 00 {
+    background: rgb(197 12 12 / 75%);
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: var(--color-white);
+}
+.loginApp h4.\32 00 {
+    background: rgb(12 154 197 / 75%);
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: var(--color-white);
+}
 .loginApp form {
     padding: 25px;
     margin-top: 15px;
