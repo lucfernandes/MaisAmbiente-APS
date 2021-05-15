@@ -14,4 +14,8 @@ router.get('/cadastro', (req, res)=>{
     res.render("cadastro")
 })
 
+router.get('/dashboard', (req, res)=>{
+    res.render("dashboard");
+})
+
 module.exports = router;

@@ -4,6 +4,10 @@
 
     --color-secundary: #383838;
 
+    --color-danger: #e23232;
+    --color-warning: #ffbb00;
+    --color-clear: #19a5f7;
+
     --color-gray-regular: #cacaca;
     --color-gray-light: #f0f0f4;
     --color-white: #fff;
@@ -23,6 +27,11 @@ body{
     overflow: hidden;
     font-family: var(--font-family);
     color: var(--color-text);
+}
+.container{
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 /* 
 ===========================================
@@ -300,20 +309,290 @@ Login
 Dashboard
 ===========================================
 */
-.navbar-default{
+.dashboardApp{
     width: 100%;
-    background: var(--color-primary);
+    height: 100%;
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas: 
+        "navbar navbar"
+        "sidebar dashboardContent" 
+    ;
 }
-.navbar-default .container{
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
+.dashboardApp header{
+    background: var(--color-primary);
+    grid-area: navbar;
+}
+.dashboardApp header .navbar{
     display: flex;
     justify-content: flex-end;
-    padding: 15px 0;
+    align-items: center;
+    width: 100%;
 }
-.navbar-default .container h1{
+.dashboardApp header .navbar h1{
+    font-size: 36px;
     color: var(--color-white);
-    font-family: var(--font-family);
-    font-size: 42px;
+}
+.dashboardApp .sidebar{
+    grid-area: sidebar;
+    background: var(--color-gray-regular);
+    padding: 25px;
+}
+.dashboardApp .sidebar form{
+    margin-top: 25px;
+}
+.dashboardApp .sidebar form .input-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+.dashboardApp .sidebar form .input-group select{
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+.dashboardApp .sidebar form .btn{
+    display: flex;
+    justify-content: flex-end;
+}
+.dashboardApp .sidebar form .btn button{
+    width: 100%;
+    max-width: 100px;
+    height: 40px;
+    outline: none;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 5px;
+}
+.dashboardApp .sidebar h3,
+.dashboardApp .dashboardContent > h3{
+    font-weight: 400;
+    font-size: 24px;
+}
+.dashboardApp .dashboardContent{
+    grid-area: dashboardContent;
+    padding: 25px;
+    overflow-y: scroll;
+}
+.dashboardApp .dashboardContent .cardList{
+    display: flex;
+    flex-direction: column;
+}
+.dashboardApp .dashboardContent .cardList .card{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    grid-template-rows: 1fr 1;
+    grid-template-areas:
+        "title action"
+        "infos action"
+    ;
+    margin: 60px 0 20px 0;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-light);
+    padding: 25px;
+    border-radius: 10px;
+}
+.dashboardApp .dashboardContent .cardList .card.Pendente{
+    border-color: var(--color-danger);
+}
+.dashboardApp .dashboardContent .cardList .card.Em.Atendimento{
+    border-color: var(--color-warning);
+}
+.dashboardApp .dashboardContent .cardList .card.Finalizado{
+    border-color: var(--color-primary);
+}
+.dashboardApp .dashboardContent .cardList .card .cardStatus {
+    position: absolute;
+    top: -30px;
+    left: 125px;
+    width: 200px;
+    height: 30px;
+    color: var(--color-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1000px 1000px 0 0;
+}
+.dashboardApp .dashboardContent .cardList .card.Pendente .cardStatus{
+    background: var(--color-danger);
+}
+.dashboardApp .dashboardContent .cardList .card.Em.Atendimento .cardStatus{
+    background: var(--color-warning);
+}
+.dashboardApp .dashboardContent .cardList .card.Finalizado .cardStatus{
+    background: var(--color-primary);
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory{
+    position: absolute;
+    top: -45px;
+    left: 45px;
+    width: 70px;
+    height: 70px;
+    background: var(--color-white);
+    border: 1px solid var(--color-gray-light);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: transform .2s ease-in-out;
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory:hover{
+    transform: scale(1.1);
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory img{
+    width: 100%;
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory.animal{
+    background: var(--color-warning);
+    box-shadow: 0 0 0 0 var(--color-warning);
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory.fire{
+    background: var(--color-danger);
+    box-shadow: 0 0 0 0 var(--color-danger);
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory:not(.normal) img{
+    filter: invert(1);
+}
+.dashboardApp .dashboardContent .cardList .card h3.cardTitle{
+    grid-area: title;
+    border-bottom: 1px solid var(--color-gray-light);
+    margin: 15px 0 10px 0;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+.dashboardApp .dashboardContent .cardList .card .cardInfos{
+    grid-area: infos;
+    padding-left: 20px;
+}
+.dashboardApp .dashboardContent .cardList .card .cardInfos p,
+.dashboardApp .dashboardContent .cardList .card .cardInfos p a{
+    opacity: 0.6;
+    color: var(--color-text);
+}
+.dashboardApp .dashboardContent .cardList .card .cardAction{
+    grid-area: action;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.dashboardApp .dashboardContent .cardList .card .cardAction a{
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--color-white);
+    margin: 5px 0;
+    transition: .2s ease-in-out;
+}
+.dashboardApp .dashboardContent .cardList .card .cardAction a.edit{
+    background-color: var(--color-clear);
+}
+.dashboardApp .dashboardContent .cardList .card .cardAction a.finish{
+    background-color: var(--color-primary);
+}
+.dashboardApp .dashboardContent .cardList .card .cardAction a.remove{
+    background-color: var(--color-danger);
+}
+.dashboardApp .dashboardContent .cardList .card .cardAction a:hover{
+    opacity: 0.7;
+}
+.dashboardApp #modalEditarChamado {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,.5);
+}
+.dashboardApp #modalEditarChamado.enabled{
+    display: flex;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado {
+    background: var(--color-white);
+    position: relative;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 18px -10px rgb(0 0 0 / 50%);
+    width: 95%;
+    height: 95%;
+    max-width: 600px;
+    max-height: 350px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-rows: auto auto auto auto; */
+    grid-template-areas:
+        "title title"
+        "input1 input2"
+        "input3 input4"
+        "button button"
+    ;
+    gap: 15px;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado > a {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    text-decoration: none;
+    color: var(--color-text);
+    opacity: 0.75;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado h3{
+    font-weight: 400;
+    font-size: 24px;
+    margin-bottom: 15px;
+    grid-area: title;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group input,
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group select{
+    padding: 10px;
+    outline: none;
+    width: 100%;
+    height: 40px;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group.casos{
+    grid-area: input1;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group.estados{
+    grid-area: input2;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group.local{
+    grid-area: input3;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .input-group.data{
+    grid-area: input4;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .btn{
+    grid-area: button;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.dashboardApp #modalEditarChamado form#formEditarChamado .btn button{
+    width: 100%;
+    max-width: 100px;
+    height: 40px;
+    outline: none;
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 5px;
 }

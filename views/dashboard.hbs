@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | +Ambiente</title>
+
+    <link rel="stylesheet" href="/css/main.css">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div id="appRoot" class="dashboardApp">
+        <header>
+            <div class="container">
+                <div class="navbar">
+                    <h1>+Ambiente</h1>
+                </div>
+            </div>
+        </header>
+        <div class="sidebar">
+            <h3>Filtrar por:</h3>
+            <form action="" method="GET" id="formFilter">
+                <div class="input-group">
+                    <label for="FiltroEstado">Estado:</label>
+                    <select name="" id="FiltroEstado">
+                        <option value="">Todos</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Atendimento">Em Atendimento</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="FiltroCaso">Casos:</label>
+                    <select name="" id="FiltroCaso">
+                        <option value="">Todos</option>
+                        <option value="Caça aos Animais">Caça de Animais</option>
+                        <option value="Maus-tratos de Animal">Maus-tratos de Animais</option>
+                        <option value="Incêndio">Incêndio</option>
+                        <option value="Desmatamento">Desmatamento</option>
+                        <option value="Poluição de Rios">Poluição de Rios</option>
+                    </select>
+                </div>
+                <div class="btn">
+                    <button type="submit">Filtrar</button>
+                </div>
+            </form>
+        </div>
+        <div class="dashboardContent">
+            <h3>Chamados</h3>
+            <div class="cardList" id="cardListChamados">
+                Carregando dados...
+            </div>
+        </div>
+        {{!-- Modal Editar --}}
+        <div id="modalEditarChamado">
+            <form action="" id="formEditarChamado">
+                <a href="" onclick="event.preventDefault();$('#modalEditarChamado').removeClass('enabled')">Fechar</a>
+                <h3>Editar Chamado</h3>
+                <div class="input-group casos">
+                    <label for="editarCaso">Casos:</label>
+                    <select name="" id="editarCaso">
+                        <option value="Caça aos Animais">Caça de Animais</option>
+                        <option value="Maus-tratos de Animal">Maus-tratos de Animais</option>
+                        <option value="Incêndio">Incêndio</option>
+                        <option value="Desmatamento">Desmatamento</option>
+                        <option value="Poluição de Rios">Poluição de Rios</option>
+                    </select>
+                </div>
+                <div class="input-group estados">
+                    <label for="editarEstado">Estado:</label>
+                    <select name="" id="editarEstado">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Atendimento">Em Atendimento</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
+                </div>
+                <div class="input-group local">
+                    <label for="editarLocal">Local:</label>
+                    <input type="text" id="editarLocal">
+                </div>
+                <div class="input-group data">
+                    <label for="editarData">Data e Hora:</label>
+                    <input type="date" id="editarData">
+                </div>
+                <div class="btn">
+                    <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="/js/dashboard.js"></script>
+
+</body>
+
+</html>
+

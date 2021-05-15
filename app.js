@@ -40,6 +40,7 @@ db.connect(err => {
 // Define as rotas
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
+app.use('/data', require('./routes/data'));
 
 // Inicia servidor na porta desejada
 app.listen(5000, () => {
