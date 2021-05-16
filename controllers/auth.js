@@ -116,4 +116,9 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res)=>{
     
+    res.clearCookie("userLog");
+    res.clearCookie("jwt");
+
+    res.status(200).redirect("/");
+
 }

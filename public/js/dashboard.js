@@ -136,7 +136,7 @@ function criaChamado(dados){
         <div id="cardCategory" class="animal"><img src="/img/pawprint.svg" alt=""></div>
         <h3 class="cardTitle">${dadosChamado.chamado_tipo}</h3>
         <div class="cardInfos">
-            <p class="cardLocation">${dadosChamado.chamado_local} - por ${dadosChamado.chamado_dono}</p>
+            <p class="cardLocation">${dadosChamado.chamado_local} - por ${dadosChamado.chamado_donoNome}</p>
             <p class="dateTime">${dadosChamado.chamado_data}</p>
         </div>
         <div class="cardAction">

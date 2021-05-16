@@ -12,7 +12,12 @@ exports.chamados = (req, res) => {
     let queryEstado = req.query.estado;
     let queryCasos = req.query.caso;
 
-    let sql = "SELECT * FROM chamados WHERE chamado_status <> 'Inativo'";
+    // let sql = "SELECT * FROM chamados WHERE chamado_status <> 'Inativo'";
+    let sql = `
+        SELECT chamados.id, chamados.chamado_tipo, chamados.chamado_dono, chamados.chamado_local, chamados.chamado_local, chamados.chamado_data, chamados.chamado_status, users.name AS chamado_donoNome 
+        FROM chamados INNER JOIN users ON chamados.chamado_dono = users.id
+        WHERE chamado_status <> 'Inativo'
+    `;
 
     if(Object.keys(req.query).length === 0){
         // Acesso a dashboard padrão. Onde mostra todos os resultados
