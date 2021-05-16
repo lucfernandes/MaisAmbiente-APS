@@ -47,6 +47,38 @@ $(function () {
 
         })
 
+    });
+
+    // Envia novos dados
+    $('#formEditarChamado').submit((e)=>{
+        e.preventDefault();
+
+        let objNovosDados = {
+            caso: $('#formEditarChamado #editarCaso').val(),
+            estado: $('#formEditarChamado #editarEstado').val(),
+            local: $('#formEditarChamado #editarLocal').val(),
+            data: $('#formEditarChamado #editarData').val(),
+        }
+
+        objNovosDados.chamadoID = $('#formEditarChamado #chamadoID').val();
+
+        $.ajax({
+            type: "POST",
+            url: '/data/editar',
+            data: objNovosDados,
+            success: data =>{
+                if(data.status == 200){
+                    alert('Chamado editado com sucesso');
+
+                    location.reload();
+                }else{
+                    alert('Não foi possível editar o chamado');
+
+                    location.reload();
+                }
+            }
+        })
+
     })
 
 })
@@ -89,9 +121,7 @@ function editarChamado(e, id){
     $.post(`/data/busca?id=${id}`, data => {
 
         let dadosChamado = JSON.parse(data);
-
-        console.log(dadosChamado);
-
+        
         tempChamado_data = new Date(dadosChamado.chamado_data);
 
         dadosChamado.chamado_data = `${tempChamado_data.getDate()}/${tempChamado_data.getMonth()}/${tempChamado_data.getFullYear()}`;
@@ -104,6 +134,8 @@ function editarChamado(e, id){
         $('#modalEditarChamado #editarLocal').val(dadosChamado.chamado_local);
         // Substitui informação da data e hora
         $('#modalEditarChamado #editarData').val(dadosChamado.chamado_data);
+        // Substitui id do chamado
+        $('#chamadoID').val(id);
 
         // Habilita modal
         $('#modalEditarChamado').addClass('enabled')

@@ -111,6 +111,54 @@ exports.finalizarChamado = (req, res) => {
 
 }
 
+exports.editarChamado = (req, res) => {
+
+    let userID = req.cookies.userLog.id;
+
+    let dadosEnviados = req.body;
+
+    let sql;
+
+    // Valida se é o perfil admin
+    if(userID == 11){
+
+        sql = `
+            UPDATE chamados
+            SET chamado_tipo = '${dadosEnviados.caso}', chamado_local = '${dadosEnviados.local}', chamado_status = '${dadosEnviados.estado}', chamado_data = '${dadosEnviados.data}'
+            WHERE id = ${dadosEnviados.chamadoID}
+        `;
+
+    // Caso não seja, valida se o perfil que editou é o mesmo do dono do chamado
+    }else{
+
+        sql = `
+            UPDATE chamados
+            SET chamado_tipo = '${dadosEnviados.caso}', chamado_local = '${dadosEnviados.local}', chamado_status = '${dadosEnviados.estado}', chamado_data = '${dadosEnviados.data}'
+            WHERE id = '${dadosEnviados.chamadoID}' AND chamado_dono = '${dadosEnviados.userID}'
+        `;
+
+    }
+
+    db.query(sql, async(err, result) => {
+        if(err){
+            console.log(err);
+        }else{
+            if(result.affectedRows == 1){
+                res.json({
+                    status: 200,
+                    message: 'Chamado editado com sucesso'
+                })
+            }else{
+                res.json({
+                    status: 403,
+                    message: 'Permissão não concedida'
+                })
+            }
+        }
+    })
+
+}
+
 exports.busca = (req, res) => {
 
     let queryID = req.query.id;

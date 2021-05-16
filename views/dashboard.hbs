@@ -20,6 +20,9 @@
         <header>
             <div class="container">
                 <div class="navbar">
+                    {{#if user }}
+                        <h4 class="userLogged">Bem vindo {{user}} <i>({{level}})</i></h4>
+                    {{/if}}
                     <h1>+Ambiente</h1>
                 </div>
             </div>
@@ -51,6 +54,9 @@
                     <button type="submit">Filtrar</button>
                 </div>
             </form>
+            <div class="config">
+                <a href="/auth/logout" class="logout">Sair</a>
+            </div>
         </div>
         <div class="dashboardContent">
             <h3>Chamados</h3>
@@ -61,12 +67,13 @@
         {{!-- Modal Editar --}}
         <div id="modalEditarChamado">
             <form action="" id="formEditarChamado">
+                <input type="hidden" id="chamadoID">
                 <a href="" onclick="event.preventDefault();$('#modalEditarChamado').removeClass('enabled')">Fechar</a>
                 <h3>Editar Chamado</h3>
                 <div class="input-group casos">
                     <label for="editarCaso">Casos:</label>
-                    <select name="" id="editarCaso">
-                        <option value="Caça aos Animais">Caça de Animais</option>
+                    <select name="" id="editarCaso" required>
+                        <option value="Caça aos Animais">Caça aos Animais</option>
                         <option value="Maus-tratos de Animal">Maus-tratos de Animais</option>
                         <option value="Incêndio">Incêndio</option>
                         <option value="Desmatamento">Desmatamento</option>
@@ -75,7 +82,7 @@
                 </div>
                 <div class="input-group estados">
                     <label for="editarEstado">Estado:</label>
-                    <select name="" id="editarEstado">
+                    <select name="" id="editarEstado" required>
                         <option value="Pendente">Pendente</option>
                         <option value="Em Atendimento">Em Atendimento</option>
                         <option value="Finalizado">Finalizado</option>
@@ -83,11 +90,11 @@
                 </div>
                 <div class="input-group local">
                     <label for="editarLocal">Local:</label>
-                    <input type="text" id="editarLocal">
+                    <input type="text" id="editarLocal" required>
                 </div>
                 <div class="input-group data">
                     <label for="editarData">Data e Hora:</label>
-                    <input type="date" id="editarData">
+                    <input type="date" id="editarData" required>
                 </div>
                 <div class="btn">
                     <button type="submit">Salvar</button>

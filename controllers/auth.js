@@ -90,12 +90,19 @@ exports.login = async (req, res) => {
 
                 const cookieOptions = {
                     expires: new Date(
-                        Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+                        Date.now() + process.env.JWT_COOKIE_EXPIRES
                     ),
                     httpOnly: true
                 }
 
+                const cookieDataUser = {
+                    name:results[0].name,
+                    userLevel:results[0].userlevel,
+                    id:results[0].id
+                }
+
                 res.cookie('jwt', token, cookieOptions);
+                res.cookie('userLog', cookieDataUser, cookieOptions);
                 res.status(200).redirect("/dashboard");
             }
 
@@ -105,4 +112,8 @@ exports.login = async (req, res) => {
         console.log(err);
     }
 
+}
+
+exports.logout = async (req, res)=>{
+    
 }

@@ -15,7 +15,17 @@ router.get('/cadastro', (req, res)=>{
 })
 
 router.get('/dashboard', (req, res)=>{
-    res.render("dashboard");
+
+    if(!req.cookies.jwt && !req.cookies.userLog){
+        return res.status(403).redirect('/login');
+    }
+
+    let userCookie = req.cookies.userLog;
+
+    res.status(200).render("dashboard",{
+        user: userCookie.name,
+        level: userCookie.userLevel
+    });
 })
 
 module.exports = router;
