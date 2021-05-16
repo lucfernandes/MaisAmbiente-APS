@@ -43,6 +43,6 @@ app.use('/auth', require('./routes/auth'));
 app.use('/data', require('./routes/data'));
 
 // Inicia servidor na porta desejada
-app.listen(5000, () => {
+app.listen(5000,'25.112.43.40', () => {
     console.log('Sever started on Port 5000')
 })

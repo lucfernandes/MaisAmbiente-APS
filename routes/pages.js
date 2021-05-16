@@ -24,7 +24,8 @@ router.get('/dashboard', (req, res)=>{
 
     res.status(200).render("dashboard",{
         user: userCookie.name,
-        level: userCookie.userLevel
+        level: userCookie.userLevel,
+        id: userCookie.id
     });
 })
 

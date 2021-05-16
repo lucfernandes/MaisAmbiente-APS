@@ -124,12 +124,13 @@ function criaChamado(dados){
     // Recebe cada conjunto de dados da API
     let dadosChamado = dados;
 
+    // Altera o tipo da Data para dia/mes/ano
     tempChamado_data = new Date(dadosChamado.chamado_data);
-
     dadosChamado.chamado_data = `${tempChamado_data.getDate()}/${tempChamado_data.getMonth()}/${tempChamado_data.getFullYear()}`;
 
     // Valida Icone 
 
+    // Cria html do elemento
     let elementoHTML = `
     <div class="card ${dadosChamado.chamado_status}">
         <div class="cardStatus">${dadosChamado.chamado_status}</div>
@@ -139,13 +140,24 @@ function criaChamado(dados){
             <p class="cardLocation">${dadosChamado.chamado_local} - por ${dadosChamado.chamado_donoNome}</p>
             <p class="dateTime">${dadosChamado.chamado_data}</p>
         </div>
-        <div class="cardAction">
-            <a href="" onclick="editarChamado(event,${dadosChamado.id})" class="edit">Editar</a>
-            <a href="" onclick="finalizarChamado(event,${dadosChamado.id})" class="finish">Finalizar</a>
-            <a href="" onclick="removeChamado(event,${dadosChamado.id})" class="remove">Remover</a>
-        </div>
-    </div>
     `;
+
+    console.log(dadosChamado);
+
+    if(idUsuarioLogado == dadosChamado.chamado_dono){
+        elementoHTML = elementoHTML + `
+            <div class="cardAction">
+                <a href="" onclick="editarChamado(event,${dadosChamado.id})" class="edit">Editar</a>
+                <a href="" onclick="finalizarChamado(event,${dadosChamado.id})" class="finish">Finalizar</a>
+                <a href="" onclick="removeChamado(event,${dadosChamado.id})" class="remove">Remover</a>
+            </div>
+        </div>
+        `;
+    }else{
+        elementoHTML = elementoHTML + `
+        </div>            
+        `;
+    }
 
     $('#cardListChamados').append(elementoHTML);
 
