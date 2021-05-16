@@ -159,6 +159,37 @@ exports.editarChamado = (req, res) => {
 
 }
 
+exports.criarChamado = (req, res) => {
+
+    let userID = req.cookies.userLog.id;
+
+    let dadosEnviados = req.body;
+
+    let sql = `
+        INSERT INTO chamados (chamado_tipo, chamado_dono, chamado_local, chamado_data, chamado_status)
+        VALUES ('${dadosEnviados.caso}','${userID}','${dadosEnviados.local}','${dadosEnviados.data}','${dadosEnviados.estado}')
+    `;
+
+    db.query(sql, async(err, result) => {
+        if(err){
+            console.log(err);
+        }else{
+            if(result.affectedRows == 1){
+                res.json({
+                    status: 200,
+                    message: 'Chamado editado com sucesso'
+                })
+            }else{
+                res.json({
+                    status: 403,
+                    message: 'Permissão não concedida'
+                })
+            }
+        }
+    })
+
+}
+
 exports.busca = (req, res) => {
 
     let queryID = req.query.id;

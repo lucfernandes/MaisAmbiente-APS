@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="dashboardContent">
-            <h3>Chamados</h3>
+            <h3>Chamados <a href="" id="criarChamadoButton">Criar Chamado</a></h3>
             <div class="cardList" id="cardListChamados">
                 Carregando dados...
             </div>
@@ -71,7 +71,7 @@
                 <a href="" onclick="event.preventDefault();$('#modalEditarChamado').removeClass('enabled')">Fechar</a>
                 <h3>Editar Chamado</h3>
                 <div class="input-group casos">
-                    <label for="editarCaso">Casos:</label>
+                    <label for="editarCaso">Caso:</label>
                     <select name="" id="editarCaso" required>
                         <option value="Caça aos Animais">Caça aos Animais</option>
                         <option value="Maus-tratos de Animal">Maus-tratos de Animais</option>
@@ -98,6 +98,45 @@
                 </div>
                 <div class="btn">
                     <button type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+
+        {{!-- Modal Criar --}}
+        <div id="modalCriarChamado">
+            <form action="" id="formCriarChamado">
+                <a href="" onclick="event.preventDefault();$('#modalCriarChamado').removeClass('enabled')">Fechar</a>
+                <h3>Criar Chamado</h3>
+                <div class="input-group casos">
+                    <label for="novoCaso">Caso:</label>
+                    <select name="" id="novoCaso" required>
+                        <option value="" selected disabled>Selecione o caso</option>
+                        <option value="Caça aos Animais">Caça aos Animais</option>
+                        <option value="Maus-tratos de Animal">Maus-tratos de Animais</option>
+                        <option value="Incêndio">Incêndio</option>
+                        <option value="Desmatamento">Desmatamento</option>
+                        <option value="Poluição de Rios">Poluição de Rios</option>
+                    </select>
+                </div>
+                <div class="input-group estados">
+                    <label for="novoEstado">Estado:</label>
+                    <select name="" id="novoEstado" required>
+                        <option value="" selected disabled>Selecione o estado</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Atendimento">Em Atendimento</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
+                </div>
+                <div class="input-group local">
+                    <label for="novoLocal">Local:</label>
+                    <input type="text" id="novoLocal" required placeholder="Digite o endereço da ocorrência">
+                </div>
+                <div class="input-group data">
+                    <label for="novaData">Data e Hora:</label>
+                    <input type="date" id="novaData" required>
+                </div>
+                <div class="btn">
+                    <button type="submit">Criar</button>
                 </div>
             </form>
         </div>

@@ -81,6 +81,42 @@ $(function () {
 
     })
 
+    // Abre modal para criar novo chamado
+    $('#criarChamadoButton').click(e => {
+        e.preventDefault();
+
+        $('#modalCriarChamado').addClass('enabled');
+    })
+
+    // Envia novo chamado
+    $('#formCriarChamado').submit(e=>{
+        e.preventDefault();
+
+        let objNovosDados = {
+            caso: $('#formCriarChamado #novoCaso').val(),
+            estado: $('#formCriarChamado #novoEstado').val(),
+            local: $('#formCriarChamado #novoLocal').val(),
+            data: $('#formCriarChamado #novaData').val(),
+        }
+
+        $.ajax({
+            type: "POST",
+            url: '/data/criar',
+            data: objNovosDados,
+            success: data =>{
+                if(data.status == 200){
+                    alert('Chamado criado com sucesso');
+
+                    location.reload();
+                }else{
+                    alert('Não foi possível criar o chamado');
+
+                    location.reload();
+                }
+            }
+        })
+    })
+
 })
 
 function criaChamado(dados){
