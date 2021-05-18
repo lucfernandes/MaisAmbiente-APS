@@ -1,5 +1,5 @@
 $(function () {
-    
+
     // Pega os ultimos chamados da API
     $.get("/data/chamados", data=>{
        
@@ -117,6 +117,33 @@ $(function () {
         })
     })
 
+    // Reload Lista
+    $('#reloadedListaButton').click(e => {
+        e.preventDefault();
+
+        $('#cardListChamados').empty();
+        $('#cardListChamados').append('<p>Carregando dados...</p>')
+
+        $.get("/data/chamados", data=>{
+       
+            let dadosAPI = JSON.parse(data);
+    
+            $('#cardListChamados').empty();
+    
+            for(var i = 0; i < dadosAPI.length; i++){
+                criaChamado(dadosAPI[i]);
+            }
+    
+        });
+    })
+
+    // Abrir e Fechar Chat
+    $('#chat .chatHeader').click(e=>{
+        e.preventDefault();
+
+        $('#chat').toggleClass('enabled');
+    })
+
 })
 
 function criaChamado(dados){
@@ -124,17 +151,35 @@ function criaChamado(dados){
     // Recebe cada conjunto de dados da API
     let dadosChamado = dados;
 
-    // Altera o tipo da Data para dia/mes/ano
-    tempChamado_data = new Date(dadosChamado.chamado_data);
-    dadosChamado.chamado_data = `${tempChamado_data.getDate()}/${tempChamado_data.getMonth()}/${tempChamado_data.getFullYear()}`;
+    dadosChamado.chamado_data = (dadosChamado.chamado_data.split("T")[0]).split("-");
+    dadosChamado.chamado_data = `${dadosChamado.chamado_data[2]}/${dadosChamado.chamado_data[1]}/${dadosChamado.chamado_data[0]}`
+
+    console.log(dadosChamado.chamado_data);
 
     // Valida Icone 
+    switch(dadosChamado.chamado_tipo){
+        case 'Caça aos Animais':
+            dadosChamado.icone = "/img/skull-solid.svg";
+            break;
+        case 'Maus-tratos de Animal':
+            dadosChamado.icone = "/img/pawprint.svg";
+            break;
+        case 'Incêndio':
+            dadosChamado.icone = "/img/fire.svg";
+            break;
+        case 'Desmatamento':
+            dadosChamado.icone = "/img/tree-solid.svg";
+            break;
+        case 'Poluição de Rios':
+            dadosChamado.icone = "/img/tint-solid.svg";
+            break;
+    }
 
     // Cria html do elemento
     let elementoHTML = `
     <div class="card ${dadosChamado.chamado_status}">
         <div class="cardStatus">${dadosChamado.chamado_status}</div>
-        <div id="cardCategory" class="animal"><img src="/img/pawprint.svg" alt=""></div>
+        <div id="cardCategory" class="animal"><img src="${dadosChamado.icone}" alt=""></div>
         <h3 class="cardTitle">${dadosChamado.chamado_tipo}</h3>
         <div class="cardInfos">
             <p class="cardLocation">${dadosChamado.chamado_local} - por ${dadosChamado.chamado_donoNome}</p>
@@ -142,9 +187,7 @@ function criaChamado(dados){
         </div>
     `;
 
-    console.log(dadosChamado);
-
-    if(idUsuarioLogado == dadosChamado.chamado_dono){
+    if(idUsuarioLogado == dadosChamado.chamado_dono || idUsuarioLogado == 11){
         elementoHTML = elementoHTML + `
             <div class="cardAction">
                 <a href="" onclick="editarChamado(event,${dadosChamado.id})" class="edit">Editar</a>
@@ -170,9 +213,7 @@ function editarChamado(e, id){
 
         let dadosChamado = JSON.parse(data);
         
-        tempChamado_data = new Date(dadosChamado.chamado_data);
-
-        dadosChamado.chamado_data = `${tempChamado_data.getDate()}/${tempChamado_data.getMonth()}/${tempChamado_data.getFullYear()}`;
+        dadosChamado.chamado_data = dadosChamado.chamado_data.split("T")[0]
 
         // Substitui informação do caso
         $('#modalEditarChamado #editarCaso').find(`option[value="${dadosChamado.chamado_tipo}"]`).attr("selected","selected");
@@ -231,3 +272,49 @@ function removeChamado(e,id){
     }
 
 }
+
+// Conecta com o WebSocket
+var socket = io('http://25.112.43.40:5000');
+
+function renderMessage(msg){
+    $('.messages').append('<div class="msg"><b>'+ msg.author +'</b>: '+msg.message+'</div>');
+}
+
+socket.on('previousMessage', function(msgs){
+    renderMessage(msgs);
+})
+
+socket.on('receivedMessage', function(msg){
+    renderMessage(msg);
+})
+
+$('#chat').submit(function(event){
+    event.preventDefault();
+
+    var author = UsuarioLogado
+    var message = $('#chatTextMessage').val();
+    var authorID = idUsuarioLogado;
+    var date;
+    date = new Date();
+    date = date.getUTCFullYear() + '-' +
+        ('00' + (date.getUTCMonth()+1)).slice(-2) + '-' +
+        ('00' + date.getUTCDate()).slice(-2) + ' ' + 
+        ('00' + date.getUTCHours()).slice(-2) + ':' + 
+        ('00' + date.getUTCMinutes()).slice(-2) + ':' + 
+        ('00' + date.getUTCSeconds()).slice(-2);
+
+    $('#chatTextMessage').val('');
+
+    if(author.length && message.length) {
+        var messageObject = {
+            author: author,
+            message: message,
+            authorID: authorID,
+            data: date
+        };
+
+        renderMessage(messageObject);
+
+        socket.emit('sendMessage', messageObject);
+    }
+})

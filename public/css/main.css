@@ -68,118 +68,83 @@ Main
     border-width: 0px;
 
 }
-#chat {
+/* 
+===========================================
+Card
+===========================================
+*/
+form#chat {
     position: absolute;
-    z-index: 999;
-    bottom: calc(-400px + 58px);
-    right: 20px;
-    width: 100%;
-    max-width: 350px;
-    height: 100%;
-    max-height: 400px;
-    display: flex;
+    bottom: -445px;
+    right: 30px;
+    width: 400px;
+    z-index: 99999;
+    background: var(--color-gray-light);
+    border-radius: 10px 10px 0 0;
     overflow: hidden;
-    flex-direction: column;
-    background-color: var(--color-gray-light);
-    border-radius: 5px 5px 0 0;
-    transition: .2s ease-in-out;
+    transition: all .2s ease-in-out;
 }
-#chat.enable{
+form#chat.enabled{
     bottom: 0;
 }
-#chat .header{
-    width: 100%;
-    font-family: var(--font-family);
+form#chat .chatHeader {
     background: var(--color-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
     color: var(--color-white);
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 24px;
     cursor: pointer;
-    padding: 15px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.5);
 }
-#chat .inputs{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    padding: 10px;
+form#chat .chatHeader h3 {
+    font-weight: 500;
 }
-#chat .inputs input{
-    appearance: none;
-    background: none;
-    border: none;
-    outline: none;
-}
-#chat .inputs .username{
-    padding: 10px 20px;
-    border-bottom: 1px solid rgba(0,0,0,0.25);
-    color: var(--color-text);
-}
-#chat .inputs .username::placeholder{
-    color: var(--color-text);
-}
-#chat .inputs .messages {
-    flex: 1;
-    max-height: 220px!important;
+form#chat .messages {
+    padding: 20px;
+    height: 380px;
     overflow-y: scroll;
-    padding: 10px 20px;
-    display: flex;
-    flex-direction: column;
 }
-#chat .inputs .messages .msg {
-    flex-direction: column;
-    width: 50%;
-    padding: 10px 20px;
-    font-size: 14px;
-    border: 1px solid rgba(0,0,0,0.25);
-    border-radius: 10px;
-    margin: 5px 0;
-}
-#chat .inputs .messages .msg.right{
-    margin-right: auto;
-    display: flex;
-}
-#chat .inputs .messages .msg.left {
-    margin-left: auto;
-    display: flex;
-    align-items: flex-end;
-}
-#chat .inputs .messages .msg b {
-    opacity: 0.7;
-    font-weight: 400;
-}
-#chat .inputs .inputMsg{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+form#chat .messages .msg {
+    word-break: break-all;
     margin-bottom: 10px;
-    border: 1px solid var(--color-gray-regular);
-    padding: 10px 20px;
-    border-radius: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,.05);
 }
-#chat .inputs .inputMsg input{
-    flex: 1;
-    height: 40px;
-    display: flex;
-    align-items: center;
+form#chat .messages .msg:last-child{
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
-#chat .inputs .inputMsg button{
-    height: 40px;
-    width: 40px;
+form#chat .chatAction {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 10px;
+}
+form#chat .chatAction input#chatTextMessage {
     appearance: none;
     border: none;
-    cursor: pointer;
-    outline: none;
-    background: var(--color-primary);
-    padding: 10px;
-    border-radius: 10px;
+    flex: 1;
+    height: 45px;
+    padding: 0 25px;
+    border-radius: 1000px 0 0 1000px;
 }
-#chat .inputs .inputMsg button img{
+form#chat .chatAction button {
+    appearance: none;
+    border: none;
+    height: 45px;
+    width: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-primary);
+    border-radius: 0 1000px 1000px 0;
+    cursor: pointer;
+}
+form#chat .chatAction button img {
+    width: 50%;
     filter: invert(1);
+    margin-left: -6px;
 }
 /* 
 ===========================================
@@ -409,8 +374,30 @@ Dashboard
     justify-content: space-between;
     align-items: center;
 }
-
-.dashboardApp .dashboardContent > h3 a{
+.dashboardApp .dashboardContent > h3 .action{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dashboardApp .dashboardContent > h3 a#reloadedListaButton {
+    height: 45px;
+    width: 45px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    background: var(--color-primary);
+    border-radius: 10px;
+}
+.dashboardApp .dashboardContent > h3 a#reloadedListaButton img{
+    filter: invert(1);
+    transition: transform .2s ease-in-out;
+}
+.dashboardApp .dashboardContent > h3 a#reloadedListaButton img:active{
+    transform: rotate(360deg);
+}
+.dashboardApp .dashboardContent > h3 a#criarChamadoButton{
     padding: 10px 20px;
     text-decoration: none;
     font-size: 16px;
@@ -491,16 +478,18 @@ Dashboard
 .dashboardApp .dashboardContent .cardList .card #cardCategory img{
     width: 100%;
 }
-.dashboardApp .dashboardContent .cardList .card #cardCategory.animal{
-    background: var(--color-warning);
-    box-shadow: 0 0 0 0 var(--color-warning);
-}
-.dashboardApp .dashboardContent .cardList .card #cardCategory.fire{
+.dashboardApp .dashboardContent .cardList .card.Pendente #cardCategory{
     background: var(--color-danger);
-    box-shadow: 0 0 0 0 var(--color-danger);
 }
-.dashboardApp .dashboardContent .cardList .card #cardCategory:not(.normal) img{
+.dashboardApp .dashboardContent .cardList .card.Em.Atendimento #cardCategory{
+    background: var(--color-warning);
+}
+.dashboardApp .dashboardContent .cardList .card.Finalizado #cardCategory{
+    background: var(--color-primary);
+}
+.dashboardApp .dashboardContent .cardList .card #cardCategory:not(.normal) img {
     filter: invert(1);
+    height: 100%;
 }
 .dashboardApp .dashboardContent .cardList .card h3.cardTitle{
     grid-area: title;

@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 // Localiza as variaveis de ambiente
 dotenv.config({ path: './.env'});
 
+// Instância Express
 const app = express();
 
 // Conecta com o banco de dados
@@ -42,7 +43,68 @@ app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 app.use('/data', require('./routes/data'));
 
+// Inicializa Socket IO
+const server = require('http').createServer(app);
+const io = require('socket.io')(server);
+
+// Armazena as mensagens
+function saveChat(id, message, data) { 
+    let sqlChat = `
+        INSERT INTO chat (chat_usuario_id, chat_data, chat_mensagem)
+        VALUES ('${id}','${data}','${message}')
+    `;
+    db.query(sqlChat, async(err, result)=>{
+
+        if(err){
+            console.log(err);
+        }else{
+            console.log("Nova mensagem enviada");
+        }
+
+    })
+}
+
+// Instância conexão com o banco de dados
+io.on('connection', socket => {
+    
+    // console.log('Socket Conectado:'+socket.id);
+
+    let sqlChat = `
+        SELECT chat.chat_usuario_id, chat.chat_data, chat.chat_mensagem, users.name FROM chat
+        INNER JOIN users ON chat.chat_usuario_id = users.id
+    `;
+    db.query(sqlChat, async(err, result)=>{
+
+        if(err){
+            console.log(err);
+        }else{
+
+            for(var i = 0; i < result.length; i++){
+
+                let msg = {
+                    author: result[i].name,
+                    message: result[i].chat_mensagem
+                }
+        
+                socket.emit('previousMessage', msg);
+        
+            }
+
+        }
+
+    })
+
+    socket.on('sendMessage', data => {
+        
+        saveChat(data.authorID, data.message, data.data);
+
+        console.log(data);
+        socket.broadcast.emit('receivedMessage', data);
+    })
+})
+
+
 // Inicia servidor na porta desejada
-app.listen(5000,'25.112.43.40', () => {
+server.listen(5000,'25.112.43.40', () => {
     console.log('Sever started on Port 5000')
 })

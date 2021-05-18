@@ -17,6 +17,16 @@
 <body>
 
     <div id="appRoot" class="dashboardApp">
+        <form id="chat">
+                <div class="chatHeader">
+                    <h3>Entre em Contato</h3>
+                </div>
+                <div class="messages"></div>
+                <div class="chatAction">
+                    <input type="text" name="message" id="chatTextMessage" placeholder="Digite sua mensagem">
+                    <button type="submit"><img src="/img/paper-plane-solid (1).svg" alt=""></button>
+                </div>
+        </form>
         <header>
             <div class="container">
                 <div class="navbar">
@@ -59,7 +69,7 @@
             </div>
         </div>
         <div class="dashboardContent">
-            <h3>Chamados <a href="" id="criarChamadoButton">Criar Chamado</a></h3>
+            <h3>Chamados <div class="action"><a href="" id="reloadedListaButton"><img src="/img/sync-alt-solid.svg" alt=""></a><a href="" id="criarChamadoButton">Criar Chamado</a></div></h3>
             <div class="cardList" id="cardListChamados">
                 Carregando dados...
             </div>
@@ -140,7 +150,6 @@
                 </div>
             </form>
         </div>
-
     </div>
 
     {{#if id}}
@@ -148,6 +157,7 @@
         <script>
 
             window.idUsuarioLogado = {{id}};
+            window.UsuarioLogado = '{{user}}';
 
         </script>
 
@@ -155,6 +165,9 @@
 
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <!-- Socket IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
 
     <script src="/js/dashboard.js"></script>
 

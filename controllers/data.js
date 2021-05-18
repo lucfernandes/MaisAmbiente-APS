@@ -139,10 +139,12 @@ exports.editarChamado = (req, res) => {
         sql = `
             UPDATE chamados
             SET chamado_tipo = '${dadosEnviados.caso}', chamado_local = '${dadosEnviados.local}', chamado_status = '${dadosEnviados.estado}', chamado_data = '${dadosEnviados.data}'
-            WHERE id = '${dadosEnviados.chamadoID}' AND chamado_dono = '${dadosEnviados.userID}'
+            WHERE id = '${dadosEnviados.chamadoID}' AND chamado_dono = '${userID}'
         `;
 
     }
+
+    console.log(sql);
 
     db.query(sql, async(err, result) => {
         if(err){
